@@ -7,12 +7,17 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
+  build:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+      - run: npm run build
   test:
     executor: node/default
     steps:
       - checkout
       - node/install-packages:
-        cache-path: ~/project/node_modules
       - run: npm run test
       
 
@@ -22,3 +27,6 @@ workflows:
   test:
     jobs:
       - test
+  build:
+    jobs: 
+      - build
