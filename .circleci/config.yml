@@ -11,13 +11,13 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - node/install-packages:
+      - node/install-packages
       - run: npm run build
   test:
     executor: node/default
     steps:
       - checkout
-      - node/install-packages:
+      - node/install-packages
       - run: npm run test
       
 
