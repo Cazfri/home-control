@@ -1,2 +1,6 @@
-node_modules
+.circleci
+.devcontainer
+.vscode
 build
+node_modules
+.gitignore
