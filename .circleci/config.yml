@@ -78,8 +78,8 @@ workflows:
       - docker/publish:
           image: cazfri/home-controller # TODO: make this a variable, or maybe an environment variable
           lint-dockerfile: true
-          docker-username: cazfri # TODO: Make this a variable
-          docker-password: $DOCKER_PAT
+          docker-username: DOCKERHUB_USERNAME
+          docker-password: DOCKERHUB_PAT
           registry: docker.io
           tag: latest
           requires:
