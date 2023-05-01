@@ -40,7 +40,7 @@ workflows:
             branches:
               ignore: main
           deploy: false
-          image: cazfri/home-controller # TODO: make this a variable, or maybe an environment variable
+          image: $DOCKERHUB_USERNAME/$DOCKER_IMAGE_NAME # TODO: Put the username/image string into a parameter?
           lint-dockerfile: true
           requires:
             - build
@@ -54,7 +54,7 @@ workflows:
             - build
       - docker/publish:
           context: dockerhub
-          image: cazfri/home-controller # TODO: make this a variable, or maybe an environment variable
+          image: $DOCKERHUB_USERNAME/$DOCKER_IMAGE_NAME
           lint-dockerfile: true
           after_checkout:
             - run:
