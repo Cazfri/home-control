@@ -68,9 +68,6 @@ workflows:
           requires:
             - build
             - test
-      - docker-push:
-          requires:
-            - docker-build
   build-and-push-docker-image:
     jobs:
       - build
