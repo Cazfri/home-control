@@ -4,6 +4,9 @@ orbs:
   docker: circleci/docker@2.2.0
 
 executors:
+  node-executor:
+    docker:
+      - image: cimg/node:18.16.0
   docker-executor:
     docker:
       - image: cimg/node:18.16.0
@@ -16,13 +19,13 @@ executors:
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
   build:
-    executor: node/default
+    executor: node-executor
     steps:
       - checkout
       - node/install-packages
       - run: npm run build
   test:
-    executor: node/default
+    executor: node-executor
     steps:
       - checkout
       - node/install-packages
