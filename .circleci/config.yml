@@ -27,26 +27,26 @@ jobs:
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  build-and-test:
+  build-test-push:
     jobs:
       - build
       - test:
           requires:
             - build
       - docker/publish:
+          filters:
+            branches:
+              ignore: main
           deploy: false
           image: cazfri/home-controller # TODO: make this a variable, or maybe an environment variable
           lint-dockerfile: true
           requires:
             - build
             - test
-  build-and-push-docker-image:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
       - docker/publish:
+          filters:
+            branches:
+              only: main
           context: dockerhub
           image: cazfri/home-controller # TODO: make this a variable, or maybe an environment variable
           lint-dockerfile: true
