@@ -32,21 +32,21 @@ jobs:
     steps:
       - checkout
       - docker/build:
-          image: cazfri/home-controller-ui
+          image: cazfri/home-controller
       - run: mkdir -p images
-      - run: docker save -o images/home-controller-ui.image.tar.gz cazfri/home-controller-ui
+      - run: docker save -o images/home-controller.image.tar.gz cazfri/home-controller
       - persist_to_workspace:
           root: images
           paths:
-            - home-controller-ui.image.tar.gz
+            - home-controller.image.tar.gz
   docker-push:
     executor: docker-executor
     steps:
       - attach_workspace:
           at: images
-      - run: docker load -i images/home-controller-ui.image.tar.gz
+      - run: docker load -i images/home-controller.image.tar.gz
       - docker/push:
-          image: nmartinruben/home-controller-ui
+          image: cazfri/home-controller
           registry: docker.io
           tag: latest
 
