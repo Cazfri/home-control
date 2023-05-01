@@ -76,6 +76,7 @@ workflows:
           requires:
             - build
       - docker/publish:
+          context: dockerhub
           image: cazfri/home-controller # TODO: make this a variable, or maybe an environment variable
           lint-dockerfile: true
           after_checkout:
