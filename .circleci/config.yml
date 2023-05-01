@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@5.1.0
+  docker: circleci/docker@2.2.0
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
@@ -17,7 +18,19 @@ jobs:
       - checkout
       - node/install-packages
       - run: npm run test
-      
+  docker-build:
+    executor: docker/machine
+    steps:
+      - checkout
+      - docker/build:
+          image: cazfri/home-controller-ui
+  docker-push:
+    executor: docker/machine
+    steps:
+      - docker/push:
+          image: nmartinruben/home-controller-ui
+          registry: docker.io
+          tag: latest
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -28,3 +41,10 @@ workflows:
       - test:
           requires:
             - build
+      - docker-build:
+          requires:
+            - build
+            - test
+      - docker-push:
+          requires:
+            - docker-build
