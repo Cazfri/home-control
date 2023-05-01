@@ -78,6 +78,9 @@ workflows:
       - docker/publish:
           image: cazfri/home-controller # TODO: make this a variable, or maybe an environment variable
           lint-dockerfile: true
+          after_checkout:
+            - run:
+                command: echo "username is $DOCKERHUB_USERNAME"
           docker-username: DOCKERHUB_USERNAME
           docker-password: DOCKERHUB_PAT
           registry: docker.io
