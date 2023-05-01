@@ -27,7 +27,9 @@ jobs:
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  build-test-push:
+  build-and-test:
+    unless:
+      equal: [<< pipeline.git.branch >>, "main"]
     jobs:
       - build
       - test:
@@ -43,10 +45,14 @@ workflows:
           requires:
             - build
             - test
+  push-docker-image:
+    when:
+      equal: [<< pipeline.git.branch >>, "main"]
+    jobs:
+      - test:
+          requires:
+            - build
       - docker/publish:
-          filters:
-            branches:
-              only: main
           context: dockerhub
           image: cazfri/home-controller # TODO: make this a variable, or maybe an environment variable
           lint-dockerfile: true
