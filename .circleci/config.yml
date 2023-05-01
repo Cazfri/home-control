@@ -48,8 +48,6 @@ workflows:
       equal: [<< pipeline.git.branch >>, "main"]
     jobs:
       - test:
-          requires:
-            - build
       - docker/publish:
           context: dockerhub
           image: $DOCKERHUB_USERNAME/$DOCKER_IMAGE_NAME
@@ -62,5 +60,4 @@ workflows:
           registry: docker.io
           tag: latest
           requires:
-              - build
               - test
