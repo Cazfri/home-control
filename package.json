@@ -1,5 +1,5 @@
 {
-  "name": "hue-controller",
+  "name": "home-controller",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
