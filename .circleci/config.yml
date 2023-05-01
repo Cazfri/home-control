@@ -7,12 +7,12 @@ executors:
   node-executor:
     docker:
       - image: cimg/node:18.16.0
-  docker-executor:
-    docker:
-      - image: docker:23.0.5-git
-        auth:
-          username: cazfri
-          password: $DOCKER_PAT
+  # docker-executor:
+  #   docker:
+  #     - image: docker:23.0.5-git
+  #       auth:
+  #         username: cazfri
+  #         password: $DOCKER_PAT
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
@@ -65,6 +65,7 @@ workflows:
       - docker/publish:
           deploy: false
           image: cazfri/home-controller # TODO: make this a variable, or maybe an environment variable
+          lint-dockerfile: true
           requires:
             - build
             - test
@@ -76,6 +77,11 @@ workflows:
             - build
       - docker/publish:
           image: cazfri/home-controller # TODO: make this a variable, or maybe an environment variable
+          lint-dockerfile: true
+          docker-username: cazfri # TODO: Make this a variable
+          docker-password: $DOCKER_PAT
+          registry: docker.io
+          tag: latest
           requires:
               - build
               - test
