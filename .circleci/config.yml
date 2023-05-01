@@ -9,7 +9,7 @@ executors:
       - image: cimg/node:18.16.0
   docker-executor:
     docker:
-      - image: cimg/node:18.16.0
+      - image: docker/23.0.5-git
         auth:
           username: cazfri
           password: $DOCKER_PAT
