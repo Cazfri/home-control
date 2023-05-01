@@ -29,29 +29,29 @@ jobs:
       - checkout
       - node/install-packages
       - run: npm run test
-  docker-build:
-    executor: docker-executor
-    steps:
-      - setup_remote_docker
-      - checkout
-      - docker/build:
-          image: cazfri/home-controller
-      - run: mkdir -p images
-      - run: docker save -o images/home-controller.image.tar.gz cazfri/home-controller
-      - persist_to_workspace:
-          root: images
-          paths:
-            - home-controller.image.tar.gz
-  docker-push:
-    executor: docker-executor
-    steps:
-      - attach_workspace:
-          at: images
-      - run: docker load -i images/home-controller.image.tar.gz
-      - docker/push:
-          image: cazfri/home-controller
-          registry: docker.io
-          tag: latest
+  # docker-build:
+  #   executor: docker-executor
+  #   steps:
+  #     - setup_remote_docker
+  #     - checkout
+  #     - docker/build:
+  #         image: cazfri/home-controller
+  #     - run: mkdir -p images
+  #     - run: docker save -o images/home-controller.image.tar.gz cazfri/home-controller
+  #     - persist_to_workspace:
+  #         root: images
+  #         paths:
+  #           - home-controller.image.tar.gz
+  # docker-push:
+  #   executor: docker-executor
+  #   steps:
+  #     - attach_workspace:
+  #         at: images
+  #     - run: docker load -i images/home-controller.image.tar.gz
+  #     - docker/push:
+  #         image: cazfri/home-controller
+  #         registry: docker.io
+  #         tag: latest
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -62,10 +62,23 @@ workflows:
       - test:
           requires:
             - build
-      - docker-build:
+      - docker/publish:
+          deploy: false
+          image: cazfri/home-controller # TODO: make this a variable, or maybe an environment variable
           requires:
             - build
             - test
       - docker-push:
           requires:
             - docker-build
+  build-and-push-docker-image:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - docker/publish:
+          image: cazfri/home-controller # TODO: make this a variable, or maybe an environment variable
+          requires:
+              - build
+              - test
