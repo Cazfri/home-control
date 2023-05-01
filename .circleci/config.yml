@@ -36,6 +36,7 @@ workflows:
           requires:
             - build
       - docker/publish:
+          context: dockerhub
           deploy: false
           image: $DOCKERHUB_USERNAME/$DOCKER_IMAGE_NAME # TODO: Put the username/image string into a parameter?
           lint-dockerfile: true
