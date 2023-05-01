@@ -32,6 +32,7 @@ jobs:
   docker-build:
     executor: docker-executor
     steps:
+      - setup_remote_docker
       - checkout
       - docker/build:
           image: cazfri/home-controller
