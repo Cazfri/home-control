@@ -47,7 +47,7 @@ workflows:
     when:
       equal: [<< pipeline.git.branch >>, "main"]
     jobs:
-      - test:
+      - test
       - docker/publish:
           context: dockerhub
           image: $DOCKERHUB_USERNAME/$DOCKER_IMAGE_NAME
