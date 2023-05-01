@@ -9,7 +9,7 @@ executors:
       - image: cimg/base:stable
         auth:
           username: cazfri
-          password: doing-this-later
+          password: $DOCKER_PAT
     working_directory: /tmp
 
 # Define a job to be invoked later in a workflow.
